@@ -66,6 +66,29 @@
     @keyframes glowDrift2 { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-60px,-40px) scale(1.15); } }
     .bg-noise { position: absolute; inset: 0; opacity: 0.025; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
     
+    /* === Background Paths (Hero) === */
+    .bg-paths-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+    .bg-path {
+      fill: none;
+      stroke: url(#pathGradient);
+      stroke-linecap: round;
+      stroke-dasharray: 800;
+      animation: pathFlow 15s linear infinite;
+    }
+    @keyframes pathFlow {
+      0% { stroke-dashoffset: 800; opacity: 0.1; }
+      50% { opacity: 0.5; }
+      100% { stroke-dashoffset: 0; opacity: 0.1; }
+    }
+    
     /* === Floating pixels === */
     .floating-pixels { position: absolute; inset: 0; overflow: hidden; }
     .pixel { position: absolute; background: linear-gradient(135deg, var(--blue), var(--purple)); border-radius: 4px; animation: floatPixel 14s ease-in-out infinite; box-shadow: 0 0 20px rgba(45,107,255,0.4); }
@@ -111,10 +134,6 @@
     .reveal.active { opacity: 1; transform: translateY(0); }
     .reveal-d1 { transition-delay: 0.1s; } .reveal-d2 { transition-delay: 0.2s; } .reveal-d3 { transition-delay: 0.3s; } .reveal-d4 { transition-delay: 0.4s; } .reveal-d5 { transition-delay: 0.5s; }
     
-    /* === Text Reveal (DiaTextReveal) === */
-    .text-reveal-char { display: inline-block; opacity: 0; transform: translateY(30px); transition: opacity 0.5s ease, transform 0.5s ease; }
-    .text-reveal-char.active { opacity: 1; transform: translateY(0); }
-    
     /* === FlipWords === */
     .flip-word-container { display: inline-flex; position: relative; overflow: hidden; vertical-align: bottom; }
     .flip-word { display: inline-block; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.5s ease; }
@@ -131,7 +150,7 @@
       75% { color: #6EE7B7; }
     }
     
-    /* === Video Text (simulado com gradient animado) === */
+    /* === Video Text === */
     .video-text {
       background: linear-gradient(90deg, #2D6BFF, #7B3FE4, #F38CB8, #FDCC92, #6EE7B7, #2D6BFF);
       background-size: 300% 100%;
@@ -140,17 +159,9 @@
       -webkit-text-fill-color: transparent;
       color: transparent;
       animation: videoTextFlow 5s linear infinite;
+      word-break: break-word;
     }
     @keyframes videoTextFlow { 0% { background-position: 0% 50%; } 100% { background-position: 300% 50%; } }
-    
-    /* === Text 3D Flip === */
-    .text-3d-flip { display: inline-block; perspective: 600px; }
-    .text-3d-flip-inner { display: inline-block; transform-style: preserve-3d; animation: t3dFlip 6s ease-in-out infinite; }
-    @keyframes t3dFlip {
-      0%,35% { transform: rotateX(0deg); }
-      50%,85% { transform: rotateX(180deg); }
-      100% { transform: rotateX(360deg); }
-    }
     
     /* === Logo animation === */
     .logo-svg path, .logo-svg polygon { animation: logoGlow 4s ease-in-out infinite; }
@@ -161,15 +172,13 @@
     .mockup-main { position: relative; z-index: 5; transform: rotateY(-5deg) rotateX(3deg); transition: transform 0.4s ease-out; }
     .float-card-top { position: absolute; top: -30px; right: -10px; z-index: 20; }
     .float-card-left { position: absolute; top: 40%; left: -20px; z-index: 20; }
-    .float-card-bottom { position: absolute; bottom: -20px; left: 10px; z-index: 20; }
-    @media (max-width: 1024px) { .float-card-top, .float-card-left, .float-card-bottom { display: none; } }
+    @media (max-width: 1024px) { .float-card-top, .float-card-left { display: none; } }
     
     .browser-bar { display: flex; align-items: center; gap: 6px; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); }
     .browser-dot { width: 10px; height: 10px; border-radius: 50%; }
     .browser-url { flex: 1; margin-left: 12px; padding: 5px 12px; background: rgba(255,255,255,0.05); border-radius: 6px; font-size: 0.75rem; color: var(--muted); font-family: 'Space Grotesk', monospace; }
     .float-anim-1 { animation: floatCard 6s ease-in-out infinite; }
     .float-anim-2 { animation: floatCard2 7s ease-in-out infinite; }
-    .float-anim-3 { animation: floatCard 8s ease-in-out infinite 1s; }
     @keyframes floatCard { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     @keyframes floatCard2 { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
     
@@ -250,9 +259,6 @@
     @keyframes igPulse { 0%,100% { transform: scale(1); opacity: 0.4; } 50% { transform: scale(1.25); opacity: 0; } }
     .ig-float:hover { transform: scale(1.1); box-shadow: 0 12px 40px rgba(220,39,67,0.7); }
     
-    /* === Stats === */
-    .stat-number { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 2.5rem; background: linear-gradient(135deg, #2D6BFF, #7B3FE4); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
-    
     /* === Differential === */
     .diff-card { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 2rem; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); position: relative; overflow: hidden; height: 100%; }
     .diff-card:hover { transform: translateY(-4px); background: rgba(255,255,255,0.04); border-color: rgba(45,107,255,0.25); }
@@ -270,7 +276,12 @@
     @media (max-width: 1024px) { .hero-w-watermark { width: 400px; height: 400px; } }
     @media (max-width: 768px) { .hero-w-watermark { display: none; } }
     
-    @media (max-width: 768px) { section { padding: 4rem 0; } .section-header { margin-bottom: 3rem; } .stat-number { font-size: 2rem; } }
+    @media (max-width: 768px) { 
+      section { padding: 4rem 0; } 
+      .section-header { margin-bottom: 3rem; } 
+      .cta-grid { grid-template-columns: 1fr !important; }
+      .cta-grid > div:first-child { margin-bottom: 2rem; }
+    }
     @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
   </style>
 </head>
@@ -332,7 +343,17 @@
 
   <!-- ====== HERO ====== -->
   <section class="pt-32 pb-16 lg:pt-40 lg:pb-24 relative overflow-hidden" id="hero">
+    <svg class="bg-paths-svg" viewBox="0 0 696 316" fill="none" xmlns="http://www.w3.org/2000/svg" id="bgPathsSvg">
+      <defs>
+        <linearGradient id="pathGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#2D6BFF" />
+          <stop offset="100%" stop-color="#7B3FE4" />
+        </linearGradient>
+      </defs>
+    </svg>
+    
     <svg class="hero-w-watermark" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg"><g fill="url(#headerLogoGrad)"><polygon points="8,10 26,10 50,68 32,68"/><polygon points="32,68 50,68 70,32 52,32"/><polygon points="52,32 70,32 90,68 72,68"/><polygon points="72,68 90,68 112,10 94,10"/></g></svg>
+    
     <div class="container mx-auto px-6 relative z-10">
       <div class="grid lg:grid-cols-2 gap-12 lg:gap-10 items-center">
         <div class="reveal">
@@ -347,16 +368,9 @@
             <a href="#contato" class="btn btn-primary">Quero meu site <i class="fa-solid fa-arrow-right text-xs"></i></a>
             <a href="#servicos" class="btn btn-secondary"><i class="fa-regular fa-eye text-sm"></i> Ver serviços</a>
           </div>
-          <div class="grid grid-cols-3 gap-6 max-w-md">
-            <div><div class="stat-number">+200</div><div class="text-xs text-slate-500 uppercase tracking-wider mt-2 font-medium">Projetos</div></div>
-            <div><div class="stat-number">98%</div><div class="text-xs text-slate-500 uppercase tracking-wider mt-2 font-medium">Satisfação</div></div>
-            <div><div class="stat-number">&lt;1s</div><div class="text-xs text-slate-500 uppercase tracking-wider mt-2 font-medium">Carga</div></div>
-          </div>
         </div>
         
-        <!-- Mockup corrigido: cards flutuantes à frente, não atrás -->
         <div class="mockup-container reveal reveal-d2" id="heroMockup">
-          <!-- Card de conversões — TOPO DIREITA, à frente do mockup -->
           <div class="float-card-top glass rounded-2xl p-4 w-52 float-anim-1 shadow-2xl">
             <div class="flex items-center justify-between mb-3">
               <div class="text-xs text-slate-400 font-medium">Conversões</div>
@@ -373,7 +387,6 @@
             </div>
           </div>
           
-          <!-- Browser mockup principal -->
           <div class="mockup-main glass-strong rounded-2xl overflow-hidden shadow-2xl">
             <div class="browser-bar">
               <span class="browser-dot bg-red-400"></span>
@@ -399,16 +412,9 @@
             </div>
           </div>
           
-          <!-- Card de velocidade — ESQUERDA, à frente -->
           <div class="float-card-left glass rounded-xl p-2.5 flex items-center gap-2 shadow-xl float-anim-2">
             <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center"><i class="fa-solid fa-gauge-high text-white text-xs"></i></div>
             <div><div class="text-xs text-slate-400">PageSpeed</div><div class="text-sm font-bold">98/100</div></div>
-          </div>
-          
-          <!-- Card de lead — INFERIOR ESQUERDA, à frente -->
-          <div class="float-card-bottom glass rounded-xl p-3 flex items-center gap-3 shadow-xl float-anim-3">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-check text-white text-sm"></i></div>
-            <div><div class="text-xs text-slate-400">Novo lead recebido</div><div class="text-sm font-semibold whitespace-nowrap">+R$ 12.500 em vendas</div></div>
           </div>
         </div>
       </div>
@@ -432,7 +438,6 @@
         <p class="text-slate-400 text-lg max-w-2xl mx-auto">Não vendemos sites. Vendemos ativos digitais que trabalham 24/7 pelo seu negócio.</p>
       </div>
       
-      <!-- Craft Cards (Desktop) -->
       <div class="craft-stage reveal" id="craftStage">
         <div class="craft-card" data-config='{"y":-20,"rotate":-15,"zIndex":2}' style="background:linear-gradient(135deg,rgba(45,107,255,0.15),rgba(45,107,255,0.05));border:1px solid rgba(45,107,255,0.2);">
           <div>
@@ -482,7 +487,6 @@
       </div>
       <p class="text-center text-slate-500 text-sm mt-4 reveal hidden lg:block">Clique em um card para expandir os detalhes</p>
       
-      <!-- Services Mobile (grid simples) -->
       <div class="services-mobile grid md:grid-cols-2 gap-6 reveal">
         <div class="card"><div class="icon-box"><i class="fa-solid fa-building"></i></div><h3 class="text-xl font-bold mb-3">Sites Institucionais</h3><p class="text-slate-400 text-sm leading-relaxed">Presença digital que transmite autoridade e profissionalismo em cada clique.</p></div>
         <div class="card reveal-d1"><div class="icon-box"><i class="fa-solid fa-rocket"></i></div><h3 class="text-xl font-bold mb-3">Landing Pages</h3><p class="text-slate-400 text-sm leading-relaxed">Páginas estratégicas que transformam tráfego em vendas qualificadas.</p></div>
@@ -493,7 +497,7 @@
     </div>
   </section>
 
-  <!-- ====== PROCESS (Timeline Compacta) ====== -->
+  <!-- ====== PROCESS ====== -->
   <section class="relative" id="processo">
     <div class="container mx-auto px-6">
       <div class="section-header reveal">
@@ -529,7 +533,7 @@
     </div>
   </section>
 
-  <!-- ====== TEXT HOVER EFFECT (Canvas) ====== -->
+  <!-- ====== TEXT HOVER EFFECT ====== -->
   <section class="relative" style="padding:4rem 0;">
     <div class="container mx-auto px-6">
       <div class="reveal text-center">
@@ -580,30 +584,30 @@
   <section class="relative" style="padding:5rem 0;">
     <div class="container mx-auto px-6 text-center reveal">
       <p class="text-slate-500 text-sm uppercase tracking-widest mb-6">Nosso compromisso</p>
-      <h2 class="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-4">
+      <h2 class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-4 break-words">
         <span class="video-text">SITES QUE CONECTAM</span>
       </h2>
-      <h2 class="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight" id="colourfulSlogan"></h2>
+      <h2 class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold leading-tight break-words" id="colourfulSlogan"></h2>
     </div>
   </section>
 
   <!-- ====== FINAL CTA ====== -->
   <section class="relative" id="contato">
     <div class="container mx-auto px-6">
-      <div class="glass-strong rounded-3xl p-8 md:p-12 lg:p-16 relative overflow-hidden reveal">
+      <div class="glass-strong rounded-3xl p-6 md:p-8 lg:p-16 relative overflow-hidden reveal">
         <div class="absolute top-0 right-0 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
         <div class="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="grid lg:grid-cols-2 gap-12 items-center relative z-10">
+        <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center relative z-10 cta-grid">
           <div>
             <span class="section-tag"><span class="dot"></span> Vamos começar</span>
-            <h2 class="text-3xl md:text-5xl font-bold mb-5 leading-tight">Pronto para ter um site que <span class="gradient-text">vende por você?</span></h2>
-            <p class="text-slate-400 text-lg mb-8 leading-relaxed">Preencha o formulário ou fale com a gente no Instagram. Retorno em até 24 horas com uma proposta personalizada.</p>
+            <h2 class="text-2xl md:text-4xl lg:text-5xl font-bold mb-5 leading-tight">Pronto para ter um site que <span class="gradient-text">vende por você?</span></h2>
+            <p class="text-slate-400 text-base md:text-lg mb-8 leading-relaxed">Preencha o formulário ou fale com a gente no Instagram. Retorno em até 24 horas com uma proposta personalizada.</p>
             <div class="space-y-4 mb-8">
               <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400"><i class="fa-solid fa-bolt"></i></div><div><div class="font-semibold text-sm">Resposta em 24h</div><div class="text-xs text-slate-500">Sem espera, sem enrolação</div></div></div>
               <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400"><i class="fa-solid fa-shield-halved"></i></div><div><div class="font-semibold text-sm">Proposta sem compromisso</div><div class="text-xs text-slate-500">Transparente do início ao fim</div></div></div>
               <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-lg bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400"><i class="fa-solid fa-envelope"></i></div><div><div class="font-semibold text-sm">weberlyofficial26@gmail.com</div><div class="text-xs text-slate-500">E-mail direto da equipe</div></div></div>
             </div>
-            <a href="https://www.instagram.com/weberlyofficial?igsh=MmVtNHoyeDczZnE5&utm_source=qr" target="_blank" rel="noopener" class="btn btn-instagram"><i class="fa-brands fa-instagram text-lg"></i> Falar no Instagram</a>
+            <a href="https://www.instagram.com/weberlyofficial?igsh=MmVtNHoyeDczZnE5&utm_source=qr" target="_blank" rel="noopener" class="btn btn-instagram w-full sm:w-auto"><i class="fa-brands fa-instagram text-lg"></i> Falar no Instagram</a>
           </div>
           <form class="glass rounded-2xl p-6 md:p-8 space-y-5" id="contactForm">
             <div><label class="form-label" for="name">Nome completo</label><input type="text" id="name" class="form-input" placeholder="Seu nome" required></div>
@@ -629,7 +633,7 @@
           </a>
           <p class="text-slate-400 text-sm leading-relaxed mb-5">Sites que conectam. Resultados que geram.</p>
           <div class="flex items-center gap-3">
-            <a href="https://www.instagram.com/weberlyofficial?igsh=MmVtNHoyeDczZnE5&utm_source=qr" target="_blank" rel="noopener" class="w-10 h-10 rounded-lg glass flex items-center justify-center text-slate-400 hover:text-white transition-all" style="--hover-border:rgba(220,39,67,0.4);" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.instagram.com/weberlyofficial?igsh=MmVtNHoyeDczZnE5&utm_source=qr" target="_blank" rel="noopener" class="w-10 h-10 rounded-lg glass flex items-center justify-center text-slate-400 hover:text-white transition-all" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
             <a href="mailto:weberlyofficial26@gmail.com" class="w-10 h-10 rounded-lg glass flex items-center justify-center text-slate-400 hover:text-white transition-all" aria-label="E-mail"><i class="fa-regular fa-envelope"></i></a>
           </div>
         </div>
@@ -654,17 +658,12 @@
         <div>
           <h4 class="font-bold mb-4 text-sm uppercase tracking-wider text-slate-300">Contato</h4>
           <ul class="space-y-3">
-            <li class="flex items-start gap-3 text-sm text-slate-400"><i class="fa-regular fa-envelope text-blue-400 mt-1"></i><a href="mailto:weberlyofficial26@gmail.com" class="hover:text-white transition-colors">weberlyofficial26@gmail.com</a></li>
+            <li class="flex items-start gap-3 text-sm text-slate-400"><i class="fa-regular fa-envelope text-blue-400 mt-1"></i><a href="mailto:weberlyofficial26@gmail.com" class="hover:text-white transition-colors break-all">weberlyofficial26@gmail.com</a></li>
             <li class="flex items-start gap-3 text-sm text-slate-400"><i class="fa-brands fa-instagram text-blue-400 mt-1"></i><a href="https://www.instagram.com/weberlyofficial?igsh=MmVtNHoyeDczZnE5&utm_source=qr" target="_blank" rel="noopener" class="hover:text-white transition-colors">@weberlyofficial</a></li>
             <li class="flex items-start gap-3 text-sm text-slate-400"><i class="fa-solid fa-location-dot text-blue-400 mt-1"></i><span>Brasil · Atendimento remoto</span></li>
           </ul>
           <a href="#contato" class="btn btn-primary mt-5">Solicitar orçamento <i class="fa-solid fa-arrow-right text-xs"></i></a>
         </div>
-      </div>
-      <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
-        <p class="text-xs text-slate-500">© 2025 Weberly. Todos os direitos reservados.</p>
-        <div class="flex items-center gap-6"><a href="#" class="text-xs text-slate-500 hover:text-white transition-colors">Política de Privacidade</a><a href="#" class="text-xs text-slate-500 hover:text-white transition-colors">Termos de Uso</a></div>
-        <p class="text-xs text-slate-500 flex items-center gap-2">Feito com <i class="fa-solid fa-heart text-blue-500"></i> pela Weberly</p>
       </div>
     </div>
   </footer>
@@ -676,6 +675,36 @@
   <div class="toast" id="toast"><i class="fa-solid fa-circle-check"></i><div><div class="font-semibold text-sm">Mensagem enviada!</div><div class="text-xs text-slate-400">Retornaremos em até 24h.</div></div></div>
 
   <script>
+    // === Background Paths Generator ===
+    function initBackgroundPaths() {
+      const svg = document.getElementById('bgPathsSvg');
+      if (!svg) return;
+      const ns = 'http://www.w3.org/2000/svg';
+      
+      const createPaths = (position) => {
+        const paths = [];
+        for (let i = 0; i < 36; i++) {
+          const d = `M-${380 - i * 5 * position} -${189 + i * 6}C-${380 - i * 5 * position} -${189 + i * 6} -${312 - i * 5 * position} ${216 - i * 6} ${152 - i * 5 * position} ${343 - i * 6}C${616 - i * 5 * position} ${470 - i * 6} ${684 - i * 5 * position} ${875 - i * 6} ${684 - i * 5 * position} ${875 - i * 6}`;
+          const width = 0.5 + i * 0.03;
+          paths.push({ d, width, duration: 20 + Math.random() * 10 });
+        }
+        return paths;
+      };
+
+      const allPaths = [...createPaths(1), ...createPaths(-1)];
+      
+      allPaths.forEach((p) => {
+        const pathEl = document.createElementNS(ns, 'path');
+        pathEl.setAttribute('d', p.d);
+        pathEl.setAttribute('class', 'bg-path');
+        pathEl.setAttribute('stroke-width', p.width);
+        pathEl.style.animationDuration = `${p.duration}s`;
+        pathEl.style.animationDelay = `${Math.random() * -p.duration}s`;
+        svg.appendChild(pathEl);
+      });
+    }
+    initBackgroundPaths();
+
     // === Floating pixels ===
     function createFloatingPixels() {
       const container = document.getElementById('floatingPixels');
@@ -819,7 +848,7 @@
       populateRows() {
         const items1 = ['SITES QUE CONECTAM', 'RESULTADOS QUE GERAM', 'DESIGN QUE CONVERTE', 'PERFORMANCE REAL'];
         const items2 = ['SUPORTE CONTÍNUO', 'SEO OTIMIZADO', 'MOBILE FIRST', 'CONVERSÃO NATIVA'];
-        const buildRow = (row, items, sep) => {
+        const buildRow = (row, items) => {
           let html = '';
           for (let r = 0; r < 3; r++) {
             items.forEach(item => {
@@ -970,7 +999,7 @@
         tempCtx.textBaseline = 'middle';
         tempCtx.fillStyle = '#fff';
         tempCtx.fillText(this.text, this.w / 2, this.h / 2);
-        const imageData = tempCtx.getImageData(0, 0, this.w, this.h);
+        const imageData = tempCtx.getImageData(0,0,this.w, this.h);
         const gap = Math.max(4, Math.floor(fontSize / 30));
         for (let y = 0; y < this.h; y += gap) {
           for (let x = 0; x < this.w; x += gap) {
