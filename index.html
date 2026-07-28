@@ -80,16 +80,21 @@
     .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08); }
     .glass-strong { background: rgba(255,255,255,0.05); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); }
     
-    /* === Buttons === */
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.875rem 1.75rem; border-radius: 12px; font-weight: 600; font-size: 0.95rem; transition: all 0.3s cubic-bezier(0.16,1,0.3,1); cursor: pointer; position: relative; overflow: hidden; text-decoration: none; white-space: nowrap; border: none; font-family: 'Inter', sans-serif; }
-    .btn-primary { background: linear-gradient(135deg, #2D6BFF 0%, #7B3FE4 100%); color: white; box-shadow: 0 4px 20px rgba(45,107,255,0.3); }
-    .btn-primary::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent); transition: left 0.6s ease; }
-    .btn-primary:hover::before { left: 100%; }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 35px rgba(45,107,255,0.5); }
-    .btn-secondary { background: rgba(255,255,255,0.05); color: white; border: 1px solid rgba(255,255,255,0.15); backdrop-filter: blur(10px); }
-    .btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: rgba(45,107,255,0.5); transform: translateY(-2px); }
-    .btn-instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); color: white; box-shadow: 0 4px 20px rgba(220,39,67,0.3); }
-    .btn-instagram:hover { transform: translateY(-2px); box-shadow: 0 10px 35px rgba(220,39,67,0.5); }
+    /* === Flow Button === */
+    .flow-btn { position: relative; display: inline-flex; align-items: center; justify-content: center; padding: 0.875rem 1.75rem; border-radius: 100px; border: 1.5px solid rgba(255,255,255,0.4); background: transparent; color: white; font-weight: 600; font-size: 0.95rem; cursor: pointer; overflow: hidden; transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1); text-decoration: none; white-space: nowrap; font-family: 'Inter', sans-serif; }
+    .flow-btn:hover { border-color: transparent; border-radius: 12px; }
+    .flow-btn.primary { border-color: rgba(45,107,255,0.6); }
+    .flow-btn.instagram { border-color: rgba(220,39,67,0.6); }
+    .flow-text { position: relative; z-index: 2; transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); transform: translateX(-12px); }
+    .flow-btn:hover .flow-text { transform: translateX(12px); }
+    .flow-circle { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 16px; height: 16px; background: linear-gradient(135deg, #2D6BFF, #7B3FE4); border-radius: 50%; opacity: 0; transition: all 0.8s cubic-bezier(0.19, 1, 0.22, 1); z-index: 1; }
+    .flow-btn:hover .flow-circle { width: 250px; height: 250px; opacity: 1; }
+    .flow-btn.instagram:hover .flow-circle { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+    .flow-arrow-left, .flow-arrow-right { position: absolute; z-index: 3; font-size: 0.9rem; transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); color: white; }
+    .flow-arrow-left { left: -25%; opacity: 0; }
+    .flow-arrow-right { right: 1.5rem; opacity: 1; }
+    .flow-btn:hover .flow-arrow-left { left: 1.2rem; opacity: 1; }
+    .flow-btn:hover .flow-arrow-right { right: -25%; opacity: 0; }
     
     /* === Card === */
     .card { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 2rem; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); position: relative; overflow: hidden; }
@@ -111,10 +116,6 @@
     .reveal.active { opacity: 1; transform: translateY(0); }
     .reveal-d1 { transition-delay: 0.1s; } .reveal-d2 { transition-delay: 0.2s; } .reveal-d3 { transition-delay: 0.3s; } .reveal-d4 { transition-delay: 0.4s; } .reveal-d5 { transition-delay: 0.5s; }
     
-    /* === Text Reveal (DiaTextReveal) === */
-    .text-reveal-char { display: inline-block; opacity: 0; transform: translateY(30px); transition: opacity 0.5s ease, transform 0.5s ease; }
-    .text-reveal-char.active { opacity: 1; transform: translateY(0); }
-    
     /* === FlipWords === */
     .flip-word-container { display: inline-flex; position: relative; overflow: hidden; vertical-align: bottom; }
     .flip-word { display: inline-block; transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.5s ease; }
@@ -131,7 +132,7 @@
       75% { color: #6EE7B7; }
     }
     
-    /* === Video Text (simulado com gradient animado) === */
+    /* === Video Text === */
     .video-text {
       background: linear-gradient(90deg, #2D6BFF, #7B3FE4, #F38CB8, #FDCC92, #6EE7B7, #2D6BFF);
       background-size: 300% 100%;
@@ -140,17 +141,9 @@
       -webkit-text-fill-color: transparent;
       color: transparent;
       animation: videoTextFlow 5s linear infinite;
+      word-break: break-word;
     }
     @keyframes videoTextFlow { 0% { background-position: 0% 50%; } 100% { background-position: 300% 50%; } }
-    
-    /* === Text 3D Flip === */
-    .text-3d-flip { display: inline-block; perspective: 600px; }
-    .text-3d-flip-inner { display: inline-block; transform-style: preserve-3d; animation: t3dFlip 6s ease-in-out infinite; }
-    @keyframes t3dFlip {
-      0%,35% { transform: rotateX(0deg); }
-      50%,85% { transform: rotateX(180deg); }
-      100% { transform: rotateX(360deg); }
-    }
     
     /* === Logo animation === */
     .logo-svg path, .logo-svg polygon { animation: logoGlow 4s ease-in-out infinite; }
@@ -161,15 +154,13 @@
     .mockup-main { position: relative; z-index: 5; transform: rotateY(-5deg) rotateX(3deg); transition: transform 0.4s ease-out; }
     .float-card-top { position: absolute; top: -30px; right: -10px; z-index: 20; }
     .float-card-left { position: absolute; top: 40%; left: -20px; z-index: 20; }
-    .float-card-bottom { position: absolute; bottom: -20px; left: 10px; z-index: 20; }
-    @media (max-width: 1024px) { .float-card-top, .float-card-left, .float-card-bottom { display: none; } }
+    @media (max-width: 1024px) { .float-card-top, .float-card-left { display: none; } }
     
     .browser-bar { display: flex; align-items: center; gap: 6px; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); }
     .browser-dot { width: 10px; height: 10px; border-radius: 50%; }
     .browser-url { flex: 1; margin-left: 12px; padding: 5px 12px; background: rgba(255,255,255,0.05); border-radius: 6px; font-size: 0.75rem; color: var(--muted); font-family: 'Space Grotesk', monospace; }
     .float-anim-1 { animation: floatCard 6s ease-in-out infinite; }
     .float-anim-2 { animation: floatCard2 7s ease-in-out infinite; }
-    .float-anim-3 { animation: floatCard 8s ease-in-out infinite 1s; }
     @keyframes floatCard { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     @keyframes floatCard2 { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
     
@@ -201,21 +192,18 @@
     @media (max-width: 1023px) { .craft-stage { display: none; } }
     @media (min-width: 1024px) { .services-mobile { display: none; } }
     
-    /* === Timeline compacta === */
-    .timeline-compact { position: relative; }
-    .timeline-compact .tl-line { position: absolute; top: 28px; left: 12.5%; right: 12.5%; height: 2px; background: linear-gradient(90deg, var(--blue), var(--purple)); opacity: 0.3; }
-    .timeline-compact .tl-line::before { content: ''; position: absolute; top: 0; left: 0; height: 100%; width: 0; background: linear-gradient(90deg, var(--blue), var(--purple)); box-shadow: 0 0 15px var(--blue); transition: width 1.5s ease; }
-    .timeline-compact.active .tl-line::before { width: 100%; }
-    .tl-step { text-align: center; padding: 0 0.5rem; }
-    .tl-dot { width: 56px; height: 56px; border-radius: 16px; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); position: relative; z-index: 2; transition: all 0.4s ease; font-size: 1.2rem; color: #8FAAFF; }
-    .tl-step:hover .tl-dot { background: linear-gradient(135deg, var(--blue), var(--purple)); border-color: transparent; transform: translateY(-3px); box-shadow: 0 8px 30px rgba(45,107,255,0.4); color: white; }
-    .tl-num { position: absolute; top: -6px; right: -6px; width: 22px; height: 22px; border-radius: 50%; background: var(--bg); border: 2px solid var(--blue); color: var(--blue); font-size: 0.65rem; font-weight: 700; display: flex; align-items: center; justify-content: center; font-family: 'Space Grotesk'; }
-    @media (max-width: 768px) {
-      .timeline-compact .tl-line { display: none; }
-      .tl-dot { width: 44px; height: 44px; border-radius: 12px; font-size: 1rem; }
-      .tl-step h3 { font-size: 0.95rem; }
-      .tl-step p { font-size: 0.8rem; }
-    }
+    /* === Radial Orbital Timeline === */
+    .orbit-wrapper { display: flex; flex-direction: column; align-items: center; gap: 3rem; margin-top: 2rem; }
+    .orbit-container { position: relative; width: 380px; height: 380px; max-width: 90vw; max-height: 90vw; }
+    .orbit-ring { position: absolute; inset: 0; border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; }
+    .orbit-ring::before { content: ''; position: absolute; inset: 20px; border: 1px dashed rgba(255,255,255,0.05); border-radius: 50%; }
+    .orbit-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--blue), var(--purple)); box-shadow: 0 0 25px rgba(45,107,255,0.6); z-index: 10; cursor: pointer; }
+    .orbit-ping { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 50px; height: 50px; border: 1px solid rgba(45,107,255,0.5); border-radius: 50%; animation: orbitPing 2s cubic-bezier(0, 0, 0.2, 1) infinite; z-index: 9; }
+    @keyframes orbitPing { 0% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 100% { transform: translate(-50%, -50%) scale(2.5); opacity: 0; } }
+    .orbit-node { position: absolute; top: 50%; left: 50%; width: 50px; height: 50px; margin-left: -25px; margin-top: -25px; border-radius: 14px; background: rgba(10,14,26,0.8); border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.4s ease; z-index: 5; backdrop-filter: blur(4px); }
+    .orbit-node-title { position: absolute; top: 60px; left: 50%; transform: translateX(-50%); font-size: 0.85rem; font-weight: 600; white-space: nowrap; opacity: 0.6; transition: all 0.3s ease; }
+    .orbit-details { width: 100%; max-width: 450px; min-height: 160px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem; text-align: center; backdrop-filter: blur(10px); }
+    @media (max-width: 768px) { .orbit-container { width: 300px; height: 300px; } .orbit-node { width: 40px; height: 40px; margin-left: -20px; margin-top: -20px; } .orbit-node-title { font-size: 0.75rem; } .orbit-center { width: 40px; height: 40px; } .orbit-ping { width: 40px; height: 40px; } }
     
     /* === Text Hover Effect canvas === */
     .hover-text-canvas { width: 100%; height: 200px; cursor: crosshair; }
@@ -250,9 +238,6 @@
     @keyframes igPulse { 0%,100% { transform: scale(1); opacity: 0.4; } 50% { transform: scale(1.25); opacity: 0; } }
     .ig-float:hover { transform: scale(1.1); box-shadow: 0 12px 40px rgba(220,39,67,0.7); }
     
-    /* === Stats === */
-    .stat-number { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 2.5rem; background: linear-gradient(135deg, #2D6BFF, #7B3FE4); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; }
-    
     /* === Differential === */
     .diff-card { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 2rem; transition: all 0.4s cubic-bezier(0.16,1,0.3,1); position: relative; overflow: hidden; height: 100%; }
     .diff-card:hover { transform: translateY(-4px); background: rgba(255,255,255,0.04); border-color: rgba(45,107,255,0.25); }
@@ -270,7 +255,12 @@
     @media (max-width: 1024px) { .hero-w-watermark { width: 400px; height: 400px; } }
     @media (max-width: 768px) { .hero-w-watermark { display: none; } }
     
-    @media (max-width: 768px) { section { padding: 4rem 0; } .section-header { margin-bottom: 3rem; } .stat-number { font-size: 2rem; } }
+    @media (max-width: 768px) { 
+      section { padding: 4rem 0; } 
+      .section-header { margin-bottom: 3rem; } 
+      .cta-grid { grid-template-columns: 1fr !important; }
+      .cta-grid > div:first-child { margin-bottom: 2rem; }
+    }
     @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
   </style>
 </head>
@@ -312,7 +302,12 @@
         <a href="#contato" class="nav-link">Contato</a>
       </nav>
       <div class="flex items-center gap-3">
-        <a href="#contato" class="btn btn-primary hidden md:inline-flex">Solicitar Orçamento <i class="fa-solid fa-arrow-right text-xs"></i></a>
+        <a href="#contato" class="flow-btn primary hidden md:inline-flex">
+          <i class="fa-solid fa-arrow-right flow-arrow-left"></i>
+          <span class="flow-text">Solicitar Orçamento</span>
+          <span class="flow-circle"></span>
+          <i class="fa-solid fa-arrow-right flow-arrow-right"></i>
+        </a>
         <button class="lg:hidden text-white text-xl w-10 h-10 flex items-center justify-center glass rounded-lg" id="menuToggle" aria-label="Abrir menu"><i class="fa-solid fa-bars"></i></button>
       </div>
     </div>
@@ -326,13 +321,19 @@
       <a href="#servicos" class="nav-link text-lg mobile-nav-link">Serviços</a>
       <a href="#sobre" class="nav-link text-lg mobile-nav-link">Sobre</a>
       <a href="#contato" class="nav-link text-lg mobile-nav-link">Contato</a>
-      <a href="#contato" class="btn btn-primary mt-4 mobile-nav-link">Solicitar Orçamento</a>
+      <a href="#contato" class="flow-btn primary mt-4 mobile-nav-link">
+        <i class="fa-solid fa-arrow-right flow-arrow-left"></i>
+        <span class="flow-text">Solicitar Orçamento</span>
+        <span class="flow-circle"></span>
+        <i class="fa-solid fa-arrow-right flow-arrow-right"></i>
+      </a>
     </nav>
   </div>
 
   <!-- ====== HERO ====== -->
   <section class="pt-32 pb-16 lg:pt-40 lg:pb-24 relative overflow-hidden" id="hero">
     <svg class="hero-w-watermark" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg"><g fill="url(#headerLogoGrad)"><polygon points="8,10 26,10 50,68 32,68"/><polygon points="32,68 50,68 70,32 52,32"/><polygon points="52,32 70,32 90,68 72,68"/><polygon points="72,68 90,68 112,10 94,10"/></g></svg>
+    
     <div class="container mx-auto px-6 relative z-10">
       <div class="grid lg:grid-cols-2 gap-12 lg:gap-10 items-center">
         <div class="reveal">
@@ -344,19 +345,22 @@
             Sites profissionais que carregam em menos de 1 segundo, transformam visitantes em clientes e refletem o verdadeiro valor da sua marca. <span class="text-white font-medium">Design que converte. Performance que vende.</span>
           </p>
           <div class="flex flex-wrap gap-3 mb-12">
-            <a href="#contato" class="btn btn-primary">Quero meu site <i class="fa-solid fa-arrow-right text-xs"></i></a>
-            <a href="#servicos" class="btn btn-secondary"><i class="fa-regular fa-eye text-sm"></i> Ver serviços</a>
-          </div>
-          <div class="grid grid-cols-3 gap-6 max-w-md">
-            <div><div class="stat-number">+200</div><div class="text-xs text-slate-500 uppercase tracking-wider mt-2 font-medium">Projetos</div></div>
-            <div><div class="stat-number">98%</div><div class="text-xs text-slate-500 uppercase tracking-wider mt-2 font-medium">Satisfação</div></div>
-            <div><div class="stat-number">&lt;1s</div><div class="text-xs text-slate-500 uppercase tracking-wider mt-2 font-medium">Carga</div></div>
+            <a href="#contato" class="flow-btn primary">
+              <i class="fa-solid fa-arrow-right flow-arrow-left"></i>
+              <span class="flow-text">Quero meu site</span>
+              <span class="flow-circle"></span>
+              <i class="fa-solid fa-arrow-right flow-arrow-right"></i>
+            </a>
+            <a href="#servicos" class="flow-btn">
+              <i class="fa-solid fa-arrow-right flow-arrow-left"></i>
+              <span class="flow-text">Ver serviços</span>
+              <span class="flow-circle"></span>
+              <i class="fa-solid fa-arrow-right flow-arrow-right"></i>
+            </a>
           </div>
         </div>
         
-        <!-- Mockup corrigido: cards flutuantes à frente, não atrás -->
         <div class="mockup-container reveal reveal-d2" id="heroMockup">
-          <!-- Card de conversões — TOPO DIREITA, à frente do mockup -->
           <div class="float-card-top glass rounded-2xl p-4 w-52 float-anim-1 shadow-2xl">
             <div class="flex items-center justify-between mb-3">
               <div class="text-xs text-slate-400 font-medium">Conversões</div>
@@ -373,7 +377,6 @@
             </div>
           </div>
           
-          <!-- Browser mockup principal -->
           <div class="mockup-main glass-strong rounded-2xl overflow-hidden shadow-2xl">
             <div class="browser-bar">
               <span class="browser-dot bg-red-400"></span>
@@ -399,16 +402,9 @@
             </div>
           </div>
           
-          <!-- Card de velocidade — ESQUERDA, à frente -->
           <div class="float-card-left glass rounded-xl p-2.5 flex items-center gap-2 shadow-xl float-anim-2">
             <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center"><i class="fa-solid fa-gauge-high text-white text-xs"></i></div>
             <div><div class="text-xs text-slate-400">PageSpeed</div><div class="text-sm font-bold">98/100</div></div>
-          </div>
-          
-          <!-- Card de lead — INFERIOR ESQUERDA, à frente -->
-          <div class="float-card-bottom glass rounded-xl p-3 flex items-center gap-3 shadow-xl float-anim-3">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center flex-shrink-0"><i class="fa-solid fa-check text-white text-sm"></i></div>
-            <div><div class="text-xs text-slate-400">Novo lead recebido</div><div class="text-sm font-semibold whitespace-nowrap">+R$ 12.500 em vendas</div></div>
           </div>
         </div>
       </div>
@@ -432,7 +428,6 @@
         <p class="text-slate-400 text-lg max-w-2xl mx-auto">Não vendemos sites. Vendemos ativos digitais que trabalham 24/7 pelo seu negócio.</p>
       </div>
       
-      <!-- Craft Cards (Desktop) -->
       <div class="craft-stage reveal" id="craftStage">
         <div class="craft-card" data-config='{"y":-20,"rotate":-15,"zIndex":2}' style="background:linear-gradient(135deg,rgba(45,107,255,0.15),rgba(45,107,255,0.05));border:1px solid rgba(45,107,255,0.2);">
           <div>
@@ -482,7 +477,6 @@
       </div>
       <p class="text-center text-slate-500 text-sm mt-4 reveal hidden lg:block">Clique em um card para expandir os detalhes</p>
       
-      <!-- Services Mobile (grid simples) -->
       <div class="services-mobile grid md:grid-cols-2 gap-6 reveal">
         <div class="card"><div class="icon-box"><i class="fa-solid fa-building"></i></div><h3 class="text-xl font-bold mb-3">Sites Institucionais</h3><p class="text-slate-400 text-sm leading-relaxed">Presença digital que transmite autoridade e profissionalismo em cada clique.</p></div>
         <div class="card reveal-d1"><div class="icon-box"><i class="fa-solid fa-rocket"></i></div><h3 class="text-xl font-bold mb-3">Landing Pages</h3><p class="text-slate-400 text-sm leading-relaxed">Páginas estratégicas que transformam tráfego em vendas qualificadas.</p></div>
@@ -493,43 +487,29 @@
     </div>
   </section>
 
-  <!-- ====== PROCESS (Timeline Compacta) ====== -->
+  <!-- ====== PROCESS (Radial Orbital Timeline) ====== -->
   <section class="relative" id="processo">
     <div class="container mx-auto px-6">
       <div class="section-header reveal">
         <span class="section-tag"><span class="dot"></span> Como funciona</span>
         <h2 class="text-3xl md:text-5xl font-bold mb-4">Do briefing ao <span class="gradient-text">lançamento</span></h2>
-        <p class="text-slate-400 text-lg max-w-2xl mx-auto">Um processo transparente em 4 etapas. Sem surpresas, sem atrasos.</p>
+        <p class="text-slate-400 text-lg max-w-2xl mx-auto">Um processo transparente em 4 etapas. Clique nos nós para explorar.</p>
       </div>
-      <div class="timeline-compact reveal" id="timeline">
-        <div class="tl-line"></div>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-4">
-          <div class="tl-step">
-            <div class="tl-dot"><i class="fa-solid fa-comments"></i><span class="tl-num">01</span></div>
-            <h3 class="text-base md:text-lg font-bold mb-1">Briefing</h3>
-            <p class="text-slate-400 text-xs md:text-sm">Entendemos seu negócio e objetivos.</p>
-          </div>
-          <div class="tl-step">
-            <div class="tl-dot"><i class="fa-solid fa-pen-ruler"></i><span class="tl-num">02</span></div>
-            <h3 class="text-base md:text-lg font-bold mb-1">Design</h3>
-            <p class="text-slate-400 text-xs md:text-sm">Protótipos que convertem antes do código.</p>
-          </div>
-          <div class="tl-step">
-            <div class="tl-dot"><i class="fa-solid fa-code"></i><span class="tl-num">03</span></div>
-            <h3 class="text-base md:text-lg font-bold mb-1">Desenvolvimento</h3>
-            <p class="text-slate-400 text-xs md:text-sm">Código de ponta, performance extrema.</p>
-          </div>
-          <div class="tl-step">
-            <div class="tl-dot"><i class="fa-solid fa-rocket"></i><span class="tl-num">04</span></div>
-            <h3 class="text-base md:text-lg font-bold mb-1">Lançamento</h3>
-            <p class="text-slate-400 text-xs md:text-sm">Publicamos e monitoramos resultados.</p>
-          </div>
+      
+      <div class="orbit-wrapper reveal">
+        <div class="orbit-container" id="orbitContainer">
+          <div class="orbit-ring"></div>
+          <div class="orbit-center" id="orbitCenter"><div class="orbit-ping"></div></div>
+          <!-- Nodes generated by JS -->
+        </div>
+        <div class="orbit-details glass" id="orbitDetails">
+          <!-- Details populated by JS -->
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ====== TEXT HOVER EFFECT (Canvas) ====== -->
+  <!-- ====== TEXT HOVER EFFECT ====== -->
   <section class="relative" style="padding:4rem 0;">
     <div class="container mx-auto px-6">
       <div class="reveal text-center">
@@ -580,37 +560,47 @@
   <section class="relative" style="padding:5rem 0;">
     <div class="container mx-auto px-6 text-center reveal">
       <p class="text-slate-500 text-sm uppercase tracking-widest mb-6">Nosso compromisso</p>
-      <h2 class="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-4">
+      <h2 class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-4 break-words">
         <span class="video-text">SITES QUE CONECTAM</span>
       </h2>
-      <h2 class="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight" id="colourfulSlogan"></h2>
+      <h2 class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold leading-tight break-words" id="colourfulSlogan"></h2>
     </div>
   </section>
 
   <!-- ====== FINAL CTA ====== -->
   <section class="relative" id="contato">
     <div class="container mx-auto px-6">
-      <div class="glass-strong rounded-3xl p-8 md:p-12 lg:p-16 relative overflow-hidden reveal">
+      <div class="glass-strong rounded-3xl p-6 md:p-8 lg:p-16 relative overflow-hidden reveal">
         <div class="absolute top-0 right-0 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
         <div class="absolute bottom-0 left-0 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
-        <div class="grid lg:grid-cols-2 gap-12 items-center relative z-10">
+        <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center relative z-10 cta-grid">
           <div>
             <span class="section-tag"><span class="dot"></span> Vamos começar</span>
-            <h2 class="text-3xl md:text-5xl font-bold mb-5 leading-tight">Pronto para ter um site que <span class="gradient-text">vende por você?</span></h2>
-            <p class="text-slate-400 text-lg mb-8 leading-relaxed">Preencha o formulário ou fale com a gente no Instagram. Retorno em até 24 horas com uma proposta personalizada.</p>
+            <h2 class="text-2xl md:text-4xl lg:text-5xl font-bold mb-5 leading-tight">Pronto para ter um site que <span class="gradient-text">vende por você?</span></h2>
+            <p class="text-slate-400 text-base md:text-lg mb-8 leading-relaxed">Preencha o formulário ou fale com a gente no Instagram. Retorno em até 24 horas com uma proposta personalizada.</p>
             <div class="space-y-4 mb-8">
               <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400"><i class="fa-solid fa-bolt"></i></div><div><div class="font-semibold text-sm">Resposta em 24h</div><div class="text-xs text-slate-500">Sem espera, sem enrolação</div></div></div>
               <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400"><i class="fa-solid fa-shield-halved"></i></div><div><div class="font-semibold text-sm">Proposta sem compromisso</div><div class="text-xs text-slate-500">Transparente do início ao fim</div></div></div>
               <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-lg bg-pink-500/10 border border-pink-500/20 flex items-center justify-center text-pink-400"><i class="fa-solid fa-envelope"></i></div><div><div class="font-semibold text-sm">weberlyofficial26@gmail.com</div><div class="text-xs text-slate-500">E-mail direto da equipe</div></div></div>
             </div>
-            <a href="https://www.instagram.com/weberlyofficial?igsh=MmVtNHoyeDczZnE5&utm_source=qr" target="_blank" rel="noopener" class="btn btn-instagram"><i class="fa-brands fa-instagram text-lg"></i> Falar no Instagram</a>
+            <a href="https://www.instagram.com/weberlyofficial?igsh=MmVtNHoyeDczZnE5&utm_source=qr" target="_blank" rel="noopener" class="flow-btn instagram w-full sm:w-auto">
+              <i class="fa-brands fa-instagram flow-arrow-left"></i>
+              <span class="flow-text">Falar no Instagram</span>
+              <span class="flow-circle"></span>
+              <i class="fa-solid fa-arrow-right flow-arrow-right"></i>
+            </a>
           </div>
           <form class="glass rounded-2xl p-6 md:p-8 space-y-5" id="contactForm">
             <div><label class="form-label" for="name">Nome completo</label><input type="text" id="name" class="form-input" placeholder="Seu nome" required></div>
             <div><label class="form-label" for="email">E-mail</label><input type="email" id="email" class="form-input" placeholder="voce@email.com" required></div>
             <div><label class="form-label" for="phone">Telefone</label><input type="tel" id="phone" class="form-input" placeholder="(11) 99999-9999" required></div>
             <div><label class="form-label" for="projectType">Tipo de projeto</label><select id="projectType" class="form-input" required><option value="">Selecione uma opção</option><option value="institucional">Site Institucional</option><option value="landing">Landing Page de Alta Conversão</option><option value="ecommerce">E-commerce</option><option value="seo">SEO & Performance</option><option value="manutencao">Manutenção & Suporte</option><option value="outro">Outro / Não sei ainda</option></select></div>
-            <button type="submit" class="btn btn-primary w-full">Solicitar orçamento agora <i class="fa-solid fa-arrow-right text-xs"></i></button>
+            <button type="submit" class="flow-btn primary w-full">
+              <i class="fa-solid fa-arrow-right flow-arrow-left"></i>
+              <span class="flow-text">Solicitar orçamento agora</span>
+              <span class="flow-circle"></span>
+              <i class="fa-solid fa-arrow-right flow-arrow-right"></i>
+            </button>
             <p class="text-xs text-slate-500 text-center">Ao enviar, você concorda em ser contatado pela equipe Weberly.</p>
           </form>
         </div>
@@ -629,7 +619,7 @@
           </a>
           <p class="text-slate-400 text-sm leading-relaxed mb-5">Sites que conectam. Resultados que geram.</p>
           <div class="flex items-center gap-3">
-            <a href="https://www.instagram.com/weberlyofficial?igsh=MmVtNHoyeDczZnE5&utm_source=qr" target="_blank" rel="noopener" class="w-10 h-10 rounded-lg glass flex items-center justify-center text-slate-400 hover:text-white transition-all" style="--hover-border:rgba(220,39,67,0.4);" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.instagram.com/weberlyofficial?igsh=MmVtNHoyeDczZnE5&utm_source=qr" target="_blank" rel="noopener" class="w-10 h-10 rounded-lg glass flex items-center justify-center text-slate-400 hover:text-white transition-all" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
             <a href="mailto:weberlyofficial26@gmail.com" class="w-10 h-10 rounded-lg glass flex items-center justify-center text-slate-400 hover:text-white transition-all" aria-label="E-mail"><i class="fa-regular fa-envelope"></i></a>
           </div>
         </div>
@@ -654,17 +644,17 @@
         <div>
           <h4 class="font-bold mb-4 text-sm uppercase tracking-wider text-slate-300">Contato</h4>
           <ul class="space-y-3">
-            <li class="flex items-start gap-3 text-sm text-slate-400"><i class="fa-regular fa-envelope text-blue-400 mt-1"></i><a href="mailto:weberlyofficial26@gmail.com" class="hover:text-white transition-colors">weberlyofficial26@gmail.com</a></li>
+            <li class="flex items-start gap-3 text-sm text-slate-400"><i class="fa-regular fa-envelope text-blue-400 mt-1"></i><a href="mailto:weberlyofficial26@gmail.com" class="hover:text-white transition-colors break-all">weberlyofficial26@gmail.com</a></li>
             <li class="flex items-start gap-3 text-sm text-slate-400"><i class="fa-brands fa-instagram text-blue-400 mt-1"></i><a href="https://www.instagram.com/weberlyofficial?igsh=MmVtNHoyeDczZnE5&utm_source=qr" target="_blank" rel="noopener" class="hover:text-white transition-colors">@weberlyofficial</a></li>
             <li class="flex items-start gap-3 text-sm text-slate-400"><i class="fa-solid fa-location-dot text-blue-400 mt-1"></i><span>Brasil · Atendimento remoto</span></li>
           </ul>
-          <a href="#contato" class="btn btn-primary mt-5">Solicitar orçamento <i class="fa-solid fa-arrow-right text-xs"></i></a>
+          <a href="#contato" class="flow-btn primary mt-5">
+            <i class="fa-solid fa-arrow-right flow-arrow-left"></i>
+            <span class="flow-text">Solicitar orçamento</span>
+            <span class="flow-circle"></span>
+            <i class="fa-solid fa-arrow-right flow-arrow-right"></i>
+          </a>
         </div>
-      </div>
-      <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
-        <p class="text-xs text-slate-500">© 2025 Weberly. Todos os direitos reservados.</p>
-        <div class="flex items-center gap-6"><a href="#" class="text-xs text-slate-500 hover:text-white transition-colors">Política de Privacidade</a><a href="#" class="text-xs text-slate-500 hover:text-white transition-colors">Termos de Uso</a></div>
-        <p class="text-xs text-slate-500 flex items-center gap-2">Feito com <i class="fa-solid fa-heart text-blue-500"></i> pela Weberly</p>
       </div>
     </div>
   </footer>
@@ -722,7 +712,6 @@
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('active');
-          if (entry.target.id === 'timeline') entry.target.classList.add('active');
         }
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -50px 0px' });
@@ -819,7 +808,7 @@
       populateRows() {
         const items1 = ['SITES QUE CONECTAM', 'RESULTADOS QUE GERAM', 'DESIGN QUE CONVERTE', 'PERFORMANCE REAL'];
         const items2 = ['SUPORTE CONTÍNUO', 'SEO OTIMIZADO', 'MOBILE FIRST', 'CONVERSÃO NATIVA'];
-        const buildRow = (row, items, sep) => {
+        const buildRow = (row, items) => {
           let html = '';
           for (let r = 0; r < 3; r++) {
             items.forEach(item => {
@@ -908,6 +897,100 @@
       new CraftCards(document.getElementById('craftStage'));
     }
 
+    // === Radial Orbital Timeline ===
+    class RadialOrbitalTimeline {
+      constructor() {
+        this.container = document.getElementById('orbitContainer');
+        this.details = document.getElementById('orbitDetails');
+        this.center = document.getElementById('orbitCenter');
+        this.data = [
+          { id: 1, title: "Briefing", icon: "fa-comments", desc: "Entendemos seu negócio, objetivos e público-alvo em detalhe. Você fala, a gente escuta." },
+          { id: 2, title: "Design", icon: "fa-pen-ruler", desc: "Criamos uma identidade visual única e protótipos que convertem antes de uma linha de código." },
+          { id: 3, title: "Desenvolvimento", icon: "fa-code", desc: "Codamos com tecnologia de ponta, performance extrema e SEO nativo. Velocidade que vende." },
+          { id: 4, title: "Lançamento", icon: "fa-rocket", desc: "Publicamos, otimizamos e monitoramos para resultados contínuos. O trabalho começa aqui." }
+        ];
+        this.nodes = [];
+        this.rotationAngle = 0;
+        this.autoRotate = true;
+        this.activeId = 1;
+        
+        this.init();
+      }
+      
+      init() {
+        this.data.forEach(item => {
+          const node = document.createElement('div');
+          node.className = 'orbit-node';
+          node.dataset.id = item.id;
+          node.innerHTML = `<i class="fa-solid ${item.icon} text-sm text-white"></i><div class="orbit-node-title">${item.title}</div>`;
+          node.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.toggleNode(item.id);
+          });
+          this.container.appendChild(node);
+          this.nodes.push(node);
+        });
+        
+        this.center.addEventListener('click', () => {
+          this.autoRotate = !this.autoRotate;
+        });
+        
+        setInterval(() => {
+          if (this.autoRotate) {
+            this.rotationAngle = (this.rotationAngle + 0.3) % 360;
+            this.updatePositions();
+          }
+        }, 50);
+        
+        this.updatePositions();
+        this.updateDetails();
+      }
+      
+      toggleNode(id) {
+        this.activeId = id;
+        this.autoRotate = false;
+        this.updatePositions();
+        this.updateDetails();
+      }
+      
+      updatePositions() {
+        const radius = window.innerWidth < 768 ? 120 : 150;
+        this.nodes.forEach((node, index) => {
+          const angle = ((index / this.data.length) * 360 + this.rotationAngle) * (Math.PI / 180);
+          const x = radius * Math.cos(angle);
+          const y = radius * Math.sin(angle);
+          const isActive = parseInt(node.dataset.id) === this.activeId;
+          
+          let scale = isActive ? 1.2 : 1;
+          let bgColor = isActive ? 'linear-gradient(135deg, #2D6BFF, #7B3FE4)' : 'rgba(10,14,26,0.8)';
+          let borderColor = isActive ? 'transparent' : 'rgba(255,255,255,0.2)';
+          let boxShadow = isActive ? '0 0 20px rgba(45,107,255,0.6)' : 'none';
+          
+          let opacity = 0.6 + 0.4 * ((1 + Math.sin(angle)) / 2);
+          if (isActive) opacity = 1;
+          
+          node.style.transform = `translate(${x}px, ${y}px) scale(${scale})`;
+          node.style.zIndex = Math.round(100 + 50 * Math.cos(angle));
+          node.style.opacity = opacity;
+          node.style.background = bgColor;
+          node.style.borderColor = borderColor;
+          node.style.boxShadow = boxShadow;
+        });
+      }
+      
+      updateDetails() {
+        const item = this.data.find(i => i.id === this.activeId);
+        this.details.innerHTML = `
+          <div class="text-blue-400 text-xs uppercase tracking-widest mb-3 flex items-center justify-center gap-2">
+            <i class="fa-solid ${item.icon}"></i> Passo ${item.id}
+          </div>
+          <h3 class="text-2xl md:text-3xl font-bold mb-3">${item.title}</h3>
+          <p class="text-slate-400 text-sm md:text-base max-w-md mx-auto">${item.desc}</p>
+        `;
+      }
+    }
+    new RadialOrbitalTimeline();
+
     // === Colourful Text ===
     function createColourfulText() {
       const el = document.getElementById('colourfulSlogan');
@@ -970,7 +1053,7 @@
         tempCtx.textBaseline = 'middle';
         tempCtx.fillStyle = '#fff';
         tempCtx.fillText(this.text, this.w / 2, this.h / 2);
-        const imageData = tempCtx.getImageData(0, 0, this.w, this.h);
+        const imageData = tempCtx.getImageData(0,0,this.w, this.h);
         const gap = Math.max(4, Math.floor(fontSize / 30));
         for (let y = 0; y < this.h; y += gap) {
           for (let x = 0; x < this.w; x += gap) {
